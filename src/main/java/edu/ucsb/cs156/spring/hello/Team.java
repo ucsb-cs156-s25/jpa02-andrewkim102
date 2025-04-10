@@ -1,82 +1,95 @@
 package edu.ucsb.cs156.spring.hello;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.ArrayList;
 
-import java.util.List;
+/**
+ * A class to represent a team of developers.
+ */
+public class Team {
+    public String name;
+    public ArrayList<String> members;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-public class TeamTest {
-
-    Team team;
-
-    @BeforeEach
-    public void setup() {
-        team = new Team("test-team");    
+    /**
+     * Default constructor for a team.
+     * Needed if we use Jackson for JSON serialization/deserialization
+     */
+    public Team() {
+        this.name = "";
+        this.members = new ArrayList<String>();
     }
 
-    @Test
-    public void getName_returns_correct_name() {
-       assert(team.getName().equals("test-team"));
+    /**
+     * Constructor a team with a given name.
+     * @param name name of the team
+     */
+    public Team(String name) {
+        this.name = name;
+        this.members = new ArrayList<String>();
+    }
+    /**
+     * Add a member to the team
+     * @param member members name
+     */
+    public void addMember(String member) {
+        this.members.add(member);
+    }
+    /*
+     * Get the name of the team
+     * @return the name of the team
+     */
+    public String getName() {
+        return this.name;
+    }
+    /*
+     * Get the members of the team
+     * @return the members of the team
+     */
+    public ArrayList<String> getMembers() {
+        return this.members;
     }
 
-    @Test
-    public void toString_returns_correct_string() {
-        assertEquals("Team(name=test-team, members=[])", team.toString());
+    /** setter for name */
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Test
-    public void equals_equal() {
-        Team t1 = new Team();
-        t1.setName("foo");
-        t1.addMember("bar");
-
-        Team t2 = new Team();
-        t2.setName("foo");
-        t2.addMember("bar");
-    
-        Team t3 = new Team();
-        t3.setName("notfoo");
-        t3.addMember("notbar");
-
-        // first confirm equality, then hashCode
-        assertTrue(t1.equals(t2));
-        assertFalse(t1.equals(t3));
-        assertTrue(t1.equals(t1));
-        assertFalse(t1.equals(null));
-        assertFalse(t1.equals("foo"));
-
+    /**
+     * setter for members
+     */
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
     }
 
-    @Test
-    public void hash_equal() {
-        Team t1 = new Team();
-        t1.setName("foo");
-        t1.addMember("bar");
-        Team t2 = new Team();
-        t2.setName("foo");
-        t2.addMember("bar");
-        Team t3 = new Team();
-        t3.setName("notfoo");
-        t3.addMember("notbar");
-
-        assertEquals(t1.hashCode(), t2.hashCode());
-        assertNotEquals(t1.hashCode(), t3.hashCode());
-
-        assertEquals(t1.getName().hashCode() | t1.getMembers().hashCode(), t1.hashCode());
+    /**
+     * Check if a team is equal to another object
+     * @param obj object to compare to
+     * @return true if the object is a team with the same name and members
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Team)) {
+            return false;
+        }
+        Team other = (Team) obj;
+        return this.name.equals(other.name) && this.members.equals(other.members);
     }
 
+    /*
+     * Get a string representation of the team
+     */
+    @Override
+     public String toString() {
+         return "Team(name=" + this.name + ", members=" + this.members + ")";
+     }
 
-
-
-
-    // TODO: Add additional tests as needed to get to 100% jacoco line coverage, and
-    // 100% mutation coverage (all mutants timed out or killed)
-
+    /**
+     * Get a hash code for the team
+     */
+    @Override
+    public int hashCode() {
+        return this.name.hashCode() | this.members.hashCode();
+    }
 }
-
