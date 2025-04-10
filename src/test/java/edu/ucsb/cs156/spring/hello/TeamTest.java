@@ -44,12 +44,22 @@ public class TeamTest {
         t3.setName("notfoo");
         t3.addMember("notbar");
 
+        Team t4 = new Team();
+        t4.setName("foo");
+        t4.addMember("foofoo");
+
+        Team t5 = new Team();
+        t5.setName("barbar");
+        t5.addMember("bar");
+
         // first confirm equality, then hashCode
         assertTrue(t1.equals(t2));
         assertFalse(t1.equals(t3));
         assertTrue(t1.equals(t1));
         assertFalse(t1.equals(null));
         assertFalse(t1.equals("foo"));
+        assertFalse(t1.equals(t4));
+        assertFalse(t1.equals(t5));
 
     }
 
