@@ -1,7 +1,12 @@
 package edu.ucsb.cs156.spring.hello;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,23 +30,8 @@ public class TeamTest {
         assertEquals("Team(name=test-team, members=[])", team.toString());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        // Case 1: these are the same object
-        if (obj == this) {
-            return true;
-        }
-        // Case 2: the other object isn't even an instance of this class
-        if (!(obj instanceof Team)) { 
-            return false;
-        }
-        // Case 3: Cast the other object to this class, and compare all of the fields
-        Team other = (Team) obj;
-        return this.name.equals(other.name) && this.members.equals(other.members);
-    }
-
     @Test
-    public void hashCode_is_equal_for_equal_objects() {
+    public void equals_equal() {
         Team t1 = new Team();
         t1.setName("foo");
         t1.addMember("bar");
@@ -49,14 +39,44 @@ public class TeamTest {
         Team t2 = new Team();
         t2.setName("foo");
         t2.addMember("bar");
+    
+        Team t3 = new Team();
+        t3.setName("notfoo");
+        t3.addMember("notbar");
 
         // first confirm equality, then hashCode
         assertTrue(t1.equals(t2));
-        assertEquals(t1.hashCode(), t2.hashCode());
+        assertFalse(t1.equals(t3));
+        assertTrue(t1.equals(t1));
+        assertFalse(t1.equals(null));
+        assertFalse(t1.equals("foo"));
+
     }
 
-   
+    @Test
+    public void hash_equal() {
+        Team t1 = new Team();
+        t1.setName("foo");
+        t1.addMember("bar");
+        Team t2 = new Team();
+        t2.setName("foo");
+        t2.addMember("bar");
+        Team t3 = new Team();
+        t3.setName("notfoo");
+        t3.addMember("notbar");
+
+        assertEquals(t1.hashCode(), t2.hashCode());
+        assertNotEquals(t1.hashCode(), t3.hashCode());
+
+        assertEquals(t1.getName().hashCode() | t1.getMembers().hashCode(), t1.hashCode());
+    }
+
+
+
+
+
     // TODO: Add additional tests as needed to get to 100% jacoco line coverage, and
     // 100% mutation coverage (all mutants timed out or killed)
 
 }
+
