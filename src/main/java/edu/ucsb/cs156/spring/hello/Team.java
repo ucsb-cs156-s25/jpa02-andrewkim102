@@ -81,9 +81,9 @@ public class Team {
      * Get a string representation of the team
      */
     @Override
-    public String toString() {
-        return "Team(name=" + this.name + ", members=" + this.members + ")";
-    }
+     public String toString() {
+         return "Team(name=" + this.name + ", members=" + this.members + ")";
+     }
 
     /**
      * Get a hash code for the team
